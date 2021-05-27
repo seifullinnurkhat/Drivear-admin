@@ -1,0 +1,33 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.orders_page {
+  padding: 20px 56px;
+  height: calc(100% - 90px);
+}
+
+.orders_page .title {
+  font-family: Thasadith;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 64px;
+  line-height: 83px;
+
+  color: #418459;
+}
+
+.orders_page .subtitle {
+  display: flex;
+  justify-content: flex-end;
+}
