@@ -108,8 +108,8 @@ function OrdersInbox() {
       const docSnapshot = ref.get().then((value) => {
         setOrders(
           value.data()?.orders.map((order) => {
-            var hh = order.time.split(":")[0];
-            var mm = order.time.split(":")[1];
+            var hh = parseInt(order.time.split(":")[0]);
+            var mm = parseInt(order.time.split(":")[1]);
             return {
               ...order,
               time: `${hh < 10 ? `0${hh}` : hh}:${mm < 10 ? `0${mm}` : mm}`,
@@ -134,7 +134,7 @@ function OrdersInbox() {
       ..._orders[index],
       status: status,
     };
-
+    console.log(orders);
     const ref1 = fire
       .firestore()
       .collection("orders")
@@ -164,17 +164,19 @@ function OrdersInbox() {
         });
       console.log(_orders[index]);
       console.log(_ordersUser);
-      fire
-        .firestore()
-        .collection("orders")
-        .doc(_orders[index].userid)
-        .set({
-          orders: _ordersUser,
-        })
-        .then((response) => {
-          console.log(response);
-          setLoading(false);
-        });
+      console.log(_orders[index].userid ?? "undefined");
+      _orders[index].userid &&
+        fire
+          .firestore()
+          .collection("orders")
+          .doc(_orders[index].userid)
+          .set({
+            orders: _ordersUser.filter((e) => e),
+          })
+          .then((response) => {
+            console.log(response);
+            setLoading(false);
+          });
     });
   };
 

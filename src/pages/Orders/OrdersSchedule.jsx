@@ -131,6 +131,7 @@ function OrdersSchedule(props) {
   useEffect(() => {
     const currentUser = fire.auth().currentUser;
     const userId = localStorage.getItem("userId");
+    console.log(currentUser || userId);
     if (currentUser || userId) {
       setLoading(true);
       const ref = fire
