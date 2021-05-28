@@ -126,7 +126,7 @@ function OrdersInbox() {
     }
   }, []);
 
-  const handleChangeStatusOrder = (index, status) => {
+  const handleChangeStatusOrder = (index, status, order) => {
     setLoading(true);
     const _orders = orders;
 
@@ -141,17 +141,21 @@ function OrdersInbox() {
       .doc(_orders[index].userid);
 
     let userOrders = [];
-
+    let userOrderIndex = -1;
     const docSnapshot = ref1.get().then((value) => {
       userOrders = value.data()?.orders ?? [];
       console.log(value.data()?.orders ?? []);
-
+      userOrderIndex = userOrders.findIndex((element, index, array) => {
+        return element.date == order.date;
+      });
       const _ordersUser = userOrders;
 
-      _ordersUser[index] = {
-        ..._ordersUser[index],
+      console.log("TTTBefore", _ordersUser[userOrderIndex]);
+      _ordersUser[userOrderIndex] = {
+        ..._ordersUser[userOrderIndex],
         status: status,
       };
+      console.log("TTTAfter", _ordersUser[userOrderIndex]);
 
       ref
         .set({
@@ -236,7 +240,7 @@ function OrdersInbox() {
                       <button
                         className="accept"
                         onClick={() => {
-                          handleChangeStatusOrder(index, "ACCEPTED");
+                          handleChangeStatusOrder(index, "ACCEPTED", order);
                         }}
                       >
                         Accept
@@ -244,7 +248,7 @@ function OrdersInbox() {
                       <button
                         className="decline"
                         onClick={() => {
-                          handleChangeStatusOrder(index, "DECLINED");
+                          handleChangeStatusOrder(index, "DECLINED", order);
                         }}
                       >
                         Decline
