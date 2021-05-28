@@ -106,7 +106,16 @@ function OrdersInbox() {
         .doc(currentUser?.uid || userId);
 
       const docSnapshot = ref.get().then((value) => {
-        setOrders(value.data()?.orders ?? []);
+        setOrders(
+          value.data()?.orders.map((order) => {
+            var hh = order.time.split(":")[0];
+            var mm = order.time.split(":")[1];
+            return {
+              ...order,
+              time: `${hh < 10 ? `0${hh}` : hh}:${mm < 10 ? `0${mm}` : mm}`,
+            };
+          }) ?? []
+        );
         console.log(value.data()?.orders ?? []);
         setLoading(false);
       });

@@ -130,7 +130,6 @@ function Services(props) {
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     const currentUser = fire.auth().currentUser;
-    currentUser == null && history.push("/login");
     if (currentUser || userId) {
       setLoading(true);
       const _ref = fire
@@ -143,7 +142,7 @@ function Services(props) {
         setLoading(false);
       });
     } else {
-      //   user == null && history.push("/sign_in");
+      history.push("/login");
     }
   }, [user]);
 
@@ -325,34 +324,10 @@ function Services(props) {
               >
                 New Service
               </div>
-              <div
-                className="leading"
-                style={{
-                  backgroundColor: "red",
-                  padding: "6px",
-                  borderRadius: "4px",
-                }}
-              >
-                2
-              </div>
             </div>
           </DefaultButton>
         </div>
-        <div className="filters">
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
-        </div>
+        <div className="filters" style={{ marginBottom: "20px" }}></div>
         {loading ? (
           <CircularProgress />
         ) : (

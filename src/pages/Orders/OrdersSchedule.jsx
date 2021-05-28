@@ -130,7 +130,6 @@ function OrdersSchedule(props) {
 
   useEffect(() => {
     const currentUser = fire.auth().currentUser;
-    currentUser == null && history.push("/login");
     const userId = localStorage.getItem("userId");
     if (currentUser || userId) {
       setLoading(true);
@@ -146,6 +145,8 @@ function OrdersSchedule(props) {
 
       setRef(ref);
       filterData(currentDate);
+    } else {
+      history.push("/login");
     }
   }, [user]);
 
