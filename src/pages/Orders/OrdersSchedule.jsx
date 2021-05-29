@@ -139,9 +139,7 @@ function OrdersSchedule(props) {
         .collection("carwash_orders")
         .doc(currentUser?.uid || userId);
       const docSnapshot = ref.get().then((value) => {
-        setOrders(
-          value.data()?.orders.filter((el) => el.status == "ACCEPTED") ?? []
-        );
+        setOrders(value.data()?.orders ?? []);
         console.table(value.data()?.orders ?? []);
         setLoading(false);
       });

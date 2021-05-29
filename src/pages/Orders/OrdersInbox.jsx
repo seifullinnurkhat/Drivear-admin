@@ -146,7 +146,7 @@ function OrdersInbox() {
       userOrders = value.data()?.orders ?? [];
       console.log(value.data()?.orders ?? []);
       userOrderIndex = userOrders.findIndex((element, index, array) => {
-        return element.date == order.date;
+        return element.date == order.date && element.time == order.time;
       });
       const _ordersUser = userOrders;
 
