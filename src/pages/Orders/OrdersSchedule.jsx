@@ -139,8 +139,10 @@ function OrdersSchedule(props) {
         .collection("carwash_orders")
         .doc(currentUser?.uid || userId);
       const docSnapshot = ref.get().then((value) => {
-        setOrders(value.data()?.orders ?? []);
-        console.log(value.data()?.orders ?? []);
+        setOrders(
+          value.data()?.orders.filter((el) => el.status == "ACCEPTED") ?? []
+        );
+        console.table(value.data()?.orders ?? []);
         setLoading(false);
       });
 
@@ -152,14 +154,16 @@ function OrdersSchedule(props) {
   }, [user]);
 
   const filterData = (currentDate) => {
-    const _data = orders.filter((el) => {
-      console.log(
-        el.date.split(" ")[0],
-        currentDate,
-        el.date.split(" ")[0] == currentDate
-      );
-      return el.date.split(" ")[0] == currentDate;
-    });
+    const _data = orders
+      .filter((el) => el.status == "ACCEPTED")
+      .filter((el) => {
+        console.log(
+          el.date.split(" ")[0],
+          currentDate,
+          el.date.split(" ")[0] == currentDate
+        );
+        return el.date.split(" ")[0] == currentDate;
+      });
     console.log(_data);
     const _result = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map((el) => {
       return {
@@ -173,11 +177,18 @@ function OrdersSchedule(props) {
             );
             return order.time.split(":")[0] == el;
           }).length > 0
-            ? _data[0]
+            ? _data.filter((order) => {
+                console.log(
+                  order.time.split(":")[0],
+                  el,
+                  order.time.split(":")[0] == el
+                );
+                return order.time.split(":")[0] == el;
+              })[0]
             : null,
       };
     });
-    console.log(_result);
+    console.table(_result.map((el) => el.order));
     setFilteredRows(_result);
   };
 
