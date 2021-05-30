@@ -145,9 +145,26 @@ function OrdersInbox() {
     const docSnapshot = ref1.get().then((value) => {
       userOrders = value.data()?.orders ?? [];
       console.log(value.data()?.orders ?? []);
-      userOrderIndex = userOrders.findIndex((element, index, array) => {
-        return element.date == order.date && element.time == order.time;
-      });
+      userOrderIndex = userOrders
+        .filter((el) => {
+          return el.date == order.date;
+        })
+        .findIndex((element, index, array) => {
+          console.log(
+            element.time,
+            order.time,
+            parseInt(element.time.split(":")[0]) ==
+              parseInt(order.time.split(":")[0]) &&
+              parseInt(element.time.split(":")[1]) ==
+                parseInt(order.time.split(":")[1])
+          );
+          return (
+            parseInt(element.time.split(":")[0]) ==
+              parseInt(order.time.split(":")[0]) &&
+            parseInt(element.time.split(":")[1]) ==
+              parseInt(order.time.split(":")[1])
+          );
+        });
       const _ordersUser = userOrders;
 
       console.log("TTTBefore", _ordersUser[userOrderIndex]);
